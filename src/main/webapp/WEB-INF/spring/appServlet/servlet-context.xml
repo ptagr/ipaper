@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd 
+		http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Enable the @AspectJ support -->
+	<aop:aspectj-autoproxy />
+
+	<beans:bean id="timeExecutionProfiler"
+		class="com.ipaper.myapp.aspects.TimeExecutionProfiler" />
+
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<!-- <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+		<beans:property name="prefix" value="/WEB-INF/views/" /> <beans:property 
+		name="suffix" value=".jsp" /> </beans:bean> -->
+
+	<beans:bean id="epaperFactory" class="com.ipaper.myapp.EpaperFactory">
+		<beans:property name="epapers">
+			<beans:list>
+				<beans:value>DAINIK</beans:value>
+				<beans:value>DNA</beans:value>
+				<beans:value>INDIANEXPRESS</beans:value>
+				<beans:value>HINDUSTAN_TIMES</beans:value>
+				<!-- <beans:value>MIDDAY</beans:value> -->
+				<beans:value>MINT</beans:value>
+
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<context:component-scan base-package="com.ipaper.myapp, org.cloudfoundry.services" />
+
+	<beans:bean id="scheduledTaskClass" class="com.ipaper.myapp.ScheduledTask">
+		<beans:property name="eFactory" ref="epaperFactory" />
+	</beans:bean>
+
+	<beans:bean id="scheduledTask"
+		class="org.springframework.scheduling.timer.ScheduledTimerTask">
+		<!-- wait 10 seconds before starting repeated execution -->
+		<beans:property name="delay" value="10000" />
+		<!-- run every 3600 seconds/ 1 hr -->
+		<beans:property name="period" value="5400000" />
+		<beans:property name="timerTask" ref="scheduledTaskClass" />
+	</beans:bean>
+
+
+<beans:bean id="scheduledTaskClass2" class="com.ipaper.myapp.DeleteEpaperTask"/>
+
+	<beans:bean id="scheduledTask2"
+		class="org.springframework.scheduling.timer.ScheduledTimerTask">
+		<!-- wait 10 seconds before starting repeated execution -->
+		<beans:property name="delay" value="10000" />
+		<!-- run every 3600 seconds/ 1 hr -->
+		<beans:property name="period" value="1800000" />
+		<beans:property name="timerTask" ref="scheduledTaskClass2" />
+	</beans:bean>
+
+
+	<beans:bean id="timerFactory"
+		class="org.springframework.scheduling.timer.TimerFactoryBean">
+		<beans:property name="scheduledTimerTasks">
+			<beans:list>
+				<!-- see the example above -->
+				<beans:ref bean="scheduledTask" />
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+
+	<beans:bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<beans:property name="messageConverters">
+			<beans:list>
+				<beans:ref bean="jsonConverter" />
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="jsonConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<beans:property name="supportedMediaTypes" value="application/json" />
+	</beans:bean>
+
+	<beans:bean class="com.ipaper.myapp.CustomPDFView" id="customPdfView" />
+
+	<beans:bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<beans:property name="mediaTypes">
+			<beans:map>
+				<beans:entry key="json" value="application/json" />
+				<beans:entry key="pdf" value="application/pdf" />
+			</beans:map>
+		</beans:property>
+		<beans:property name="viewResolvers">
+			<beans:list>
+				<beans:bean
+					class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+				<beans:bean
+					class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+					<beans:property name="prefix" value="/WEB-INF/views/" />
+					<beans:property name="suffix" value=".jsp" />
+
+				</beans:bean>
+
+			</beans:list>
+		</beans:property>
+		<beans:property name="defaultViews">
+			<beans:list>
+				<beans:bean
+					class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+					<beans:property name="prefixJson" value="false"></beans:property>
+				</beans:bean>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+
+
+
+	<!-- <beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/> -->
+
+	<beans:bean id="epaperXmlView"
+		class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<beans:constructor-arg>
+			<beans:bean class="org.springframework.oxm.xstream.XStreamMarshaller">
+				<beans:property name="autodetectAnnotations" value="true" />
+			</beans:bean>
+		</beans:constructor-arg>
+	</beans:bean>
+	
+	
+	<beans:bean id="mongoURI" class="com.mongodb.MongoURI">
+      <beans:constructor-arg value="${MONGOHQ_URL}"/>
+    </beans:bean>
+  
+    <!-- create db object by calling getDB on mongo bean -->
+    <beans:bean id="db" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+      <beans:property name="targetObject"><beans:ref local="mongoURI"/></beans:property>
+      <beans:property name="targetMethod"><beans:value>connectDB</beans:value></beans:property>
+    </beans:bean>  
+ 
+    <!-- call authenticate on db object -->
+    <beans:bean id="authenticateDB"
+        class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <beans:property name="targetObject"><beans:ref local="db" /></beans:property>
+        <beans:property name="targetMethod">
+            <beans:value>authenticate</beans:value>
+        </beans:property>
+        <beans:property name="arguments">
+            <beans:list>
+                <beans:value>#{ @mongoURI.getUsername() }</beans:value>
+                <beans:value>#{ @mongoURI.getPassword() }</beans:value>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+	
+
+</beans:beans>

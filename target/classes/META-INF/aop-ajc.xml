@@ -1,0 +1,6 @@
+<aspectj>
+<aspects>
+<aspect name="com.ipaper.myapp.aspects.TimeExecutionProfiler"/>
+</aspects>
+</aspectj>
+
