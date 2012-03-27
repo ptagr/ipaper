@@ -121,17 +121,13 @@
 			<version>1.2.1.2</version>
 		</dependency>
 
+
 		<dependency>
 			<groupId>com.bfopdf</groupId>
-			<artifactId>bfopdf</artifactId>
+			<artifactId>bfopdflib</artifactId>
 			<version>1.0</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.dropbox</groupId>
-			<artifactId>dropboxclient</artifactId>
-			<version>1.0</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.swinglabs</groupId>
@@ -314,6 +310,13 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+		<!--other repositories if any -->
+		<repository>
+			<id>project.local</id>
+			<name>project</name>
+			<url>file:${project.basedir}/repo</url>
+		</repository>
+
 	</repositories>
 	<build>
 		<plugins>
