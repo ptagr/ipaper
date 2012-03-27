@@ -59,12 +59,12 @@
 	<beans:bean id="epaperFactory" class="com.ipaper.myapp.EpaperFactory">
 		<beans:property name="epapers">
 			<beans:list>
-<!-- 				<beans:value>DAINIK</beans:value> -->
-<!-- 				<beans:value>DNA</beans:value> -->
-<!-- 				<beans:value>INDIANEXPRESS</beans:value> -->
+				<beans:value>DAINIK</beans:value>
+				<beans:value>DNA</beans:value>
+				<beans:value>INDIANEXPRESS</beans:value>
 				<beans:value>HINDUSTAN_TIMES</beans:value>
-				<!-- <beans:value>MIDDAY</beans:value> -->
-<!-- 				<beans:value>MINT</beans:value> -->
+				<beans:value>MIDDAY</beans:value>
+				<beans:value>MINT</beans:value>
 
 			</beans:list>
 		</beans:property>
