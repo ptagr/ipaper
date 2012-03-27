@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Epaper Downloader</title>
+<link type="text/css"
+	href="/resources/css/ui-lightness/jquery-ui-1.8.16.custom.css"
+	rel="stylesheet" />
+	<link type="text/css"
+	href="/resources/css/smoothtaste.css"
+	rel="stylesheet" />
+<script type="text/javascript" src="/resources/js/jquery-1.6.4.js"></script>
+<script type="text/javascript"
+	src="/resources/js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="/resources/js/xp_progress.js"></script>
+<script type="text/javascript" src="/resources/js/custom.js"></script>
+</head>
+<body onload="loadXMLDoc()">
+	<div align="center">
+		<table id="mytable" border="1">
+			<thead>
+				<tr>
+					<th colspan="2" align="center" class="large">
+						Epaper Downloader v1.0 
+					</th3>
+				</tr>
+				<tr>
+					<th colspan="2" align="center" class="medium">
+						Supports DNA, Dainik & Hindustan Times</br>
+						Developer - Punit Agrawal
+					</th>
+				</tr>
+				<tr>
+					<th colspan="2" align="center" class="small">
+						Contact me -> punit.agrawal@wsu.edu
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr>
+					<th>Paper :</th>
+					<th><select id="DDpapers" onclick="">
+							<option value="">Papers</option>
+					</select></th>
+				</tr>
+				<tr>
+					<th>Language :</th>
+					<th><select id="DDlanguages" onclick="">
+							<option value="">Languages</option>
+					</select></th>
+				</tr>
+				<tr>
+					<th>City :</th>
+					<th><select id="DDCities" onclick="" >
+							<option value="">Cities</option>
+					</select></th>
+				</tr>
+				<tr>
+					<th>Date :</th>
+					<th><input type="text" id="datepicker" /></th>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th align="center" colspan="2">
+						<button onclick="getPaper()" class="myButton" id="getPaperButton">Get Paper</button>
+						<!--<a href='javascript:getPaper()' class='button green'>Get Paper</a>-->
+						
+					</th>
+				</tr>
+
+				<tr>
+					<th colspan="2"><script type="text/javascript">
+								var bar = createBar(240, 20, 'white', 1, 'black','blue', 85, 7, 5, "");
+								barStop();
+						</script></th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</body>
+</html>
