@@ -6,6 +6,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+
+import com.Ostermiller.util.CircularByteBuffer;
 
 public class DownloadManager {
 
@@ -81,9 +84,8 @@ public class DownloadManager {
 	// return fd;
 	// }
 
-	public Downloader createDownload(URL verifiedURL, String outputFolder,
-			int numConnPerDownload, int downloadNum,
-			ByteArrayInputStream[] bais, String epaper) {
+	public void createDownload(URL verifiedURL, 
+			List<CircularByteBuffer> cbbList, String epaper) {
 		HttpDownloader fd = null;
 //		String cname = "com.ipaper.myapp." + epaper.toUpperCase()
 //				+ "HttpDownloader";
@@ -118,23 +120,36 @@ public class DownloadManager {
 //		}
 
 		if (epaper.equalsIgnoreCase("ht")) {
-			fd = new HTHttpDownloader(verifiedURL, outputFolder,
-					numConnPerDownload, downloadNum, bais);
+			fd = new HTHttpDownloader(verifiedURL, cbbList);
 		} else if (epaper.equalsIgnoreCase("mint")) {
-			fd = new MINTHttpDownloader(verifiedURL, outputFolder,
-					numConnPerDownload, downloadNum, bais);
+			fd = new MINTHttpDownloader(verifiedURL, cbbList);
 		} else if (epaper.equalsIgnoreCase("hindu")) {
-			fd = new HINDUHttpDownloader(verifiedURL, outputFolder,
-					numConnPerDownload, downloadNum, bais);
+			fd = new HINDUHttpDownloader(verifiedURL, cbbList);
 		} else
-			fd = new HttpDownloader(verifiedURL, outputFolder,
-					numConnPerDownload, downloadNum, bais);
+			fd = new HttpDownloader(verifiedURL, cbbList);
 
 		mDownloadList.add(fd);
 
-		return fd;
+		//return fd;
 	}
 
+	public void startAllDownloads(){
+		for(Downloader d : mDownloadList){
+			d.start();
+		}
+	}
+	
+	public void waitForDownloads(){
+		for(Downloader d : mDownloadList){
+			try {
+				d.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	// /**
 	// * Get the unique instance of this class
 	// * @return the instance of this class
@@ -148,7 +163,7 @@ public class DownloadManager {
 
 	public boolean areDownloadsOver() {
 		for (Downloader d : mDownloadList) {
-			if (d.getState() == Downloader.DOWNLOADING)
+			if (d.getDownloadState() != d.COMPLETED)
 				return false;
 		}
 

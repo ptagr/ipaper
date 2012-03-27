@@ -10,21 +10,5 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/apache-mime4j-0.6.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/commons-codec-1.4.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/httpclient-cache-4.1.2.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/itext-xtra-5.1.1.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/itextpdf-5.1.1.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/json_simple-1.1.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/pdfbox-1.6.0.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/signpost-commonshttp4-1.2.1.1.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/signpost-core-1.2.1.1.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/PDFRenderer-0.9.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-httpclient-3.1.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/bfopdf.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/httpclient-4.0.3.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/httpcore-4.0.1.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/httpmime-4.0.3.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

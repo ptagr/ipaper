@@ -5,10 +5,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 
-public abstract class Downloader extends Observable implements Runnable{
+import com.Ostermiller.util.CircularByteBuffer;
+
+public abstract class Downloader extends Thread{
 	
 	// Member variables
 	/** The URL to download the file */
@@ -34,16 +38,16 @@ public abstract class Downloader extends Observable implements Runnable{
 	
 	protected int mdownloadNum;
 	
-	protected ByteArrayInputStream[] mbaisList;
+	protected List<CircularByteBuffer> cbbList = null;
 	
 	
-	/** List of download threads */
-	protected ArrayList<DownloadThread> mListDownloadThread;
+
 	
 	// Contants for block and buffer size
 	protected static final int BLOCK_SIZE = 4096;
 	protected static final int BUFFER_SIZE = 4096;
-	protected static final int MIN_DOWNLOAD_SIZE = BLOCK_SIZE * 100;
+	//protected static final int MIN_DOWNLOAD_SIZE = BLOCK_SIZE * 100;
+	protected static final int MIN_DOWNLOAD_SIZE = Integer.MAX_VALUE;
 	
 	// These are the status names.
     public static final String STATUSES[] = {"Downloading",
@@ -68,7 +72,7 @@ public abstract class Downloader extends Observable implements Runnable{
 //	}
 	
 	
-	protected Downloader(URL url, String outputFolder, int numConnections, int downloadNum, ByteArrayInputStream[] baisList) {
+	protected Downloader(URL url, String outputFolder, int numConnections, int downloadNum) {
 		mURL = url;
 		mOutputFolder = outputFolder;
 		mNumConnections = numConnections;
@@ -81,8 +85,22 @@ public abstract class Downloader extends Observable implements Runnable{
 		mState = DOWNLOADING;
 		mDownloaded = 0;
 		mdownloadNum = downloadNum;
-		mbaisList = baisList;
-		mListDownloadThread = new ArrayList<DownloadThread>();
+	}
+	
+	protected Downloader(URL url, List<CircularByteBuffer> cbbList) {
+		mURL = url;
+		mOutputFolder = "";
+		mNumConnections = 1;
+		
+		// Get the file name from url path
+		String fileURL = url.getFile();
+		mFileName = fileURL.substring(fileURL.lastIndexOf('/') + 1);
+//		/System.out.println("File name: " + mFileName);
+		mFileSize = -1;
+		mState = DOWNLOADING;
+		mDownloaded = 0;
+		mdownloadNum = 0;
+		this.cbbList= cbbList;
 	}
 	
 	/**
@@ -92,13 +110,13 @@ public abstract class Downloader extends Observable implements Runnable{
 		setState(PAUSED);
 	}
 	
-	/**
-	 * Resume the downloader
-	 */
-	public void resume() {
-		setState(DOWNLOADING);
-		download();
-	}
+//	/**
+//	 * Resume the downloader
+//	 */
+//	public void resume() {
+//		setState(DOWNLOADING);
+//		download();
+//	}
 	
 	/**
 	 * Cancel the downloader
@@ -131,7 +149,7 @@ public abstract class Downloader extends Observable implements Runnable{
 	/**
 	 * Get current state of the downloader
 	 */
-	public int getState() {
+	public int getDownloadState() {
 		return mState;
 	}
 	
@@ -140,32 +158,20 @@ public abstract class Downloader extends Observable implements Runnable{
 	 */
 	protected void setState(int value) {
 		mState = value;
-		stateChanged();
+		
 	}
 	
-	/**
-	 * Start or resume download
-	 */
-	protected void download() {
-		Thread t = new Thread(this);
-		t.start();
-	}
+//	/**
+//	 * Start or resume download
+//	 */
+//	protected void download() {
+//		Thread t = new Thread(this);
+//		t.start();
+//	}
 	
-	/**
-	 * Increase the downloaded size
-	 */
-	protected synchronized void downloaded(int value) {
-		mDownloaded += value;
-		stateChanged();
-	}
 	
-	/**
-	 * Set the state has changed and notify the observers
-	 */
-	protected void stateChanged() {
-		setChanged();
-		notifyObservers();
-	}
+	
+	
 	
 	
 	public void initConnect() throws  IOException{
@@ -175,55 +181,16 @@ public abstract class Downloader extends Observable implements Runnable{
 	public void exitConnect(){
 		return;
 	}
-	
-	/**
-	 * Thread to download part of a file
-	 */
-	protected abstract class DownloadThread implements Runnable {
-		protected int mThreadID;
-		protected URL mURL;
-		protected String mOutputFile;
-		protected int mStartByte;
-		protected int mEndByte;
-		protected boolean mIsFinished;
-		protected Thread mThread;
-		protected ByteArrayOutputStream[] mbaosList;
-		protected int mPartNum;
-		
-		public DownloadThread(int threadID, URL url, String outputFile, int startByte, int endByte, ByteArrayOutputStream[] _baosList, int partNum) {
-			mThreadID = threadID;
-			mURL = url;
-			mOutputFile = outputFile;
-			mStartByte = startByte;
-			mEndByte = endByte;
-			mIsFinished = false;
-			mbaosList = _baosList;
-			mPartNum = partNum;
-			download();
-		}
-		
-		/**
-		 * Get whether the thread is finished download the part of file
-		 */
-		public boolean isFinished() {
-			return mIsFinished;
-		}
-		
-		/**
-		 * Start or resume the download
-		 */
-		public void download() {
-			mThread = new Thread(this);
-			mThread.start();
-		}
-		
-		/**
-		 * Waiting for the thread to finish
-		 * @throws InterruptedException
-		 */
-		public void waitFinish() throws InterruptedException {
-			mThread.join();			
-		}
-		
+
+	public List<CircularByteBuffer> getCbbList() {
+		return cbbList;
 	}
+
+	public void setCbbList(List<CircularByteBuffer> cbbList) {
+		this.cbbList = cbbList;
+	}
+	
+	
+	
+	
 }

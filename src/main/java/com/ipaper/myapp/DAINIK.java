@@ -30,6 +30,7 @@ public class DAINIK extends EpaperBase {
 		expiryTimeInterval = 30 * 60; // 30 minutes
 		maxNumPerConn = 1;
 		id = buildFileName();
+		buildPageUrls();
 	}
 
 	void populateCSMap() {
@@ -81,7 +82,7 @@ public class DAINIK extends EpaperBase {
 	}
 
 	@Override
-	public List<String> buildPageUrls() {
+	protected void buildPageUrls() {
 		String urlStr = buildURL(lang, city, date);
 		List<String> urls = new ArrayList<String>();
 
@@ -89,7 +90,7 @@ public class DAINIK extends EpaperBase {
 			urls.add(buildPageUrl(urlStr, i + 1));
 		}
 
-		return urls;
+		
 	}
 
 	public String buildPageUrl(String urlStr, int pagenumber) {

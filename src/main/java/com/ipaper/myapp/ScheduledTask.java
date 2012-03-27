@@ -40,10 +40,12 @@ public class ScheduledTask  extends TimerTask{
 		dates.add(today);
 		dates.add(yesterday);
 
-		if(today.getHours()<=1){
+		//if(today.getHours()<=1){
 			//Remove day before yesterday's papers from server and DB
 			Date d1 = new Date(yesterday.getYear(), yesterday.getMonth(), yesterday.getDate(), 0, 0, 0);
 			DeleteEpaperTask.deleteEpaperFolder("/Public/epaper"
+					+ format.format(daybeforyesterday));
+			System.out.println("Deleting folder :" + "/Public/epaper"
 					+ format.format(daybeforyesterday));
 			BasicDBObject query = new BasicDBObject();
 			query.put("date", new BasicDBObject("$lt",d1));
@@ -55,7 +57,7 @@ public class ScheduledTask  extends TimerTask{
 			mongoTemplate.getCollection(Collections.epaperCollectionName).remove(query);
 			
 			//mongoTemplate.remove(new Query(Criteria.where("date").lt(d)), Collections.epaperCollectionName);
-		}
+		//}
 
 		
 		

@@ -76,7 +76,7 @@ public class TOI extends EpaperBase {
 
       
     @Override
-	public List<String> buildPageUrls() {
+	protected void buildPageUrls() {
 		String urlStr = buildURL(lang, city, date);
 		List<String> urls = new ArrayList<String>();
 		
@@ -84,7 +84,6 @@ public class TOI extends EpaperBase {
 			urls.add(buildPageUrl(urlStr, i + 1));
 		}
 		
-		return urls;
 	}
 	
     public String buildPageUrl(String urlStr, int pagenumber){

@@ -7,9 +7,12 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -20,6 +23,7 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -48,6 +52,14 @@ public abstract class EpaperBase {
 	protected int maxNumPerConn;
 	protected Date generatedTime;
 	protected float size;
+	
+	@Transient
+	protected transient List<InputStream> pdfs = Collections
+			.synchronizedList(new ArrayList<InputStream>());
+			
+	@Transient
+	protected transient List<String> urls = Collections
+			.synchronizedList(new ArrayList<String>());
 	// protected EnumSet<Language> languages;
 
 	// /protected EnumSet<Day> days;
@@ -75,7 +87,7 @@ public abstract class EpaperBase {
 		this.size = 0;
 	}
 
-	public abstract List<String> buildPageUrls();
+	protected abstract void buildPageUrls();
 
 	public String buildFileName() {
 		StringBuilder paperName = new StringBuilder(name);
@@ -90,6 +102,16 @@ public abstract class EpaperBase {
 		if (city != null)
 			paperName.append("_").append(city).append(".pdf");
 		return paperName.toString();
+	}
+	
+	
+
+	public List<String> getUrls() {
+		return urls;
+	}
+
+	public void setUrls(List<String> urls) {
+		this.urls = urls;
 	}
 
 	public String getName() {
@@ -187,6 +209,8 @@ public abstract class EpaperBase {
 	public void setGeneratedTime(Date generatedTime) {
 		this.generatedTime = generatedTime;
 	}
+	
+	
 
 	// public boolean isPaperOnDropbox() {
 	// SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy");
@@ -212,6 +236,18 @@ public abstract class EpaperBase {
 	//
 	// return false;
 	// }
+
+	public List<InputStream> getPdfs() {
+		return pdfs;
+	}
+
+	public void setPdfs(List<InputStream> pdfs) {
+		this.pdfs = pdfs;
+	}
+	
+	public void insertPdf(InputStream pdf) {
+		this.pdfs.add(pdf);
+	}
 
 	public String uploadToDropbox(byte content[]) {
 		SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy");

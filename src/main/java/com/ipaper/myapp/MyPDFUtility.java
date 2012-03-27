@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.Ostermiller.util.CircularByteBuffer;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfCopy;
@@ -105,6 +106,66 @@ public class MyPDFUtility {
 					is.close();
 				}
 				pdfs = null;
+				if (document.isOpen())
+					document.close();
+				if (outputStream != null)
+					outputStream.close();
+				System.gc();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
+		}
+	}
+	
+	public static void concatPDFs(List<CircularByteBuffer> cbbpdfs,
+			OutputStream outputStream) {
+		
+		Document document = new Document();
+		try {
+
+			List<PdfReader> readers = new ArrayList<PdfReader>();
+			Iterator<CircularByteBuffer> iteratorPDFs = cbbpdfs.iterator();
+
+			// Create Readers for the pdfs.
+			while (iteratorPDFs.hasNext()) {
+				InputStream pdf = iteratorPDFs.next().getInputStream();
+				PdfReader pdfReader = new PdfReader(pdf);
+				readers.add(pdfReader);
+			}
+			
+			System.out.println("Readers size : "+readers.size());
+
+			PdfCopy writer = new PdfCopy(document, outputStream);
+
+			document.open();
+
+			PdfImportedPage page;
+			int pageOfCurrentReaderPDF = 0;
+			Iterator<PdfReader> iteratorPDFReader = readers.iterator();
+
+			// Loop through the PDF files and add to the output.
+			while (iteratorPDFReader.hasNext()) {
+				PdfReader pdfReader = iteratorPDFReader.next();
+
+				// Create a new page in the target for each source page.
+				while (pageOfCurrentReaderPDF < pdfReader.getNumberOfPages()) {
+					document.newPage();
+					pageOfCurrentReaderPDF++;
+					page = writer.getImportedPage(pdfReader,
+							pageOfCurrentReaderPDF);
+					writer.addPage(page);
+				}
+				pageOfCurrentReaderPDF = 0;
+			}
+			
+			outputStream.flush();
+			readers = null;
+			document.close();
+			outputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
 				if (document.isOpen())
 					document.close();
 				if (outputStream != null)

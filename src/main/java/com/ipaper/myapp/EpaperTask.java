@@ -15,11 +15,16 @@ import java.util.concurrent.ExecutionException;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 
+import com.Ostermiller.util.CircularByteBuffer;
+
 public class EpaperTask {
 
-	public List<InputStream> pdfs = Collections
-			.synchronizedList(new ArrayList<InputStream>());
+//	public List<InputStream> pdfs = Collections
+//			.synchronizedList(new ArrayList<InputStream>());
 
+	List<CircularByteBuffer> cbbList = Collections.
+			synchronizedList(new ArrayList<CircularByteBuffer>());
+	
 	private ByteArrayOutputStream _boutStream = new ByteArrayOutputStream();
 
 	protected EpaperBase epaper = null;
@@ -50,8 +55,8 @@ public class EpaperTask {
 		System.out.println("STARTTIME - "
 				+ new SimpleDateFormat("ddMMyyyy HH:mm:ss:SS")
 						.format(new Date()));
-		List<String> urls = epaper.buildPageUrls();
-		if(urls == null || urls.size() == 0){
+		//epaper.buildPageUrls();
+		if(epaper.getUrls()== null || epaper.getUrls().size() == 0){
 			return new byte[0];
 		}
 		// for(String url : urls)
@@ -59,13 +64,14 @@ public class EpaperTask {
 		System.out.println("GETTING PDFs !!!! ");
 		// DownloadManager dm = DownloadManager.getInstance();
 		DownloadManager dm = new DownloadManager();
-		ByteArrayInputStream[] baisList = new ByteArrayInputStream[urls.size()];
+		//ByteArrayInputStream[] baisList = new ByteArrayInputStream[epaper.getPdfs().size()];
+		
+		//List<CircularByteBuffer> cbbList = new ArrayList<CircularByteBuffer>();
 
 		try {
 
-			for (int i = 0; i < urls.size(); i++) {
-				dm.createDownload(new URL(urls.get(i)), null,
-						epaper.getMaxNumPerConn(), i, baisList,
+			for (int i = 0; i < epaper.getUrls().size(); i++) {
+				dm.createDownload(new URL(epaper.getUrls().get(i)), cbbList,
 						epaper.getName());
 			}
 
@@ -75,16 +81,17 @@ public class EpaperTask {
 			dm = null;
 			System.gc();
 
-			for (ByteArrayInputStream bais : baisList) {
-				if (bais != null) {
-					pdfs.add(bais);
-				}
-			}
+//			for (ByteArrayInputStream bais : baisList) {
+//				if (bais != null) {
+//					pdfs.add(bais);
+//				}
+//			}
 
-			System.out.println("no of pages : " + pdfs.size());
+			System.out.println("no of pages : " + cbbList.size());
 
-			epaper.setPageCount(pdfs.size());
-			mergePDFs();
+			epaper.setPageCount(cbbList.size());
+			//mergePDFs();
+			mergeCBBPDFs();
 
 			System.out.println("Size - " + _boutStream.size() / 1024 + "KB");
 			System.out.println("ENDTIME - "
@@ -95,38 +102,45 @@ public class EpaperTask {
 			e.printStackTrace();
 			return null;
 		} finally {
-			for (InputStream in : pdfs) {
-				in.close();
-			}
-			pdfs = null;
-			for (ByteArrayInputStream bais : baisList) {
-				if (bais != null)
-					bais.close();
-			}
-			baisList = null;
+			
+			
+			cbbList.clear();
+			cbbList = null;
 			_boutStream.close();
 			_boutStream = null;
 			System.gc();
 		}
 	}
 
-	public void mergePDFs() {
-		if (pdfs.isEmpty()) {
+//	public void mergePDFs() {
+//		if (pdfs.isEmpty()) {
+//			return;
+//		} else {
+//
+//			// System.out.println("MERGING PDFs");
+//
+//			MyPDFUtility.concatPDFs(pdfs, _boutStream, false);
+//		}
+//	}
+	
+	
+	public void mergeCBBPDFs() {
+		if (cbbList.isEmpty()) {
 			return;
 		} else {
 
 			// System.out.println("MERGING PDFs");
 
-			MyPDFUtility.concatPDFs(pdfs, _boutStream, false);
+			MyPDFUtility.concatPDFs(cbbList, _boutStream);
 		}
 	}
 
 	public String generateEpaper(boolean delete, MongoTemplate mongoTemplate) {
 		String returnUrl = "";
 
-		Date yesterday = Time.addandReturnDate(-1);
-		Date d = new Date(yesterday.getYear(), yesterday.getMonth(),
-				yesterday.getDate(), 0, 0, 0);
+//		Date yesterday = Time.addandReturnDate(-1);
+//		Date d = new Date(yesterday.getYear(), yesterday.getMonth(),
+//				yesterday.getDate(), 0, 0, 0);
 		try {
 			epaper.setId();
 

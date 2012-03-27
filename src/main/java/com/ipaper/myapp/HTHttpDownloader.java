@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.Ostermiller.util.CircularByteBuffer;
+
 public class HTHttpDownloader extends HttpDownloader {
 	private final static String username = "epaperDownloader%40live.com";
 	private final static String password = "download";
@@ -23,8 +25,12 @@ public class HTHttpDownloader extends HttpDownloader {
 	// }
 
 	public HTHttpDownloader(URL url, String outputFolder, int numConnections,
-			int downloadNum, ByteArrayInputStream[] baisList) {
-		super(url, outputFolder, numConnections, downloadNum, baisList);
+			int downloadNum) {
+		super(url, outputFolder, numConnections, downloadNum);
+	}
+	
+	public HTHttpDownloader(URL url, List<CircularByteBuffer> cbbList) {
+		super(url, cbbList);
 	}
 
 	@Override

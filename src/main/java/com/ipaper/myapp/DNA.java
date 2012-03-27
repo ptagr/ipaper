@@ -44,16 +44,16 @@ public class DNA extends EpaperBase {
 		id = buildFileName();
 	}
 
-	@Override
-	public List<String> buildPageUrls() {
-		String urlStr = buildURL(lang, city, date);
-		List<String> urls = new ArrayList<String>();
+	
+	protected void buildPageUrls() {
+		String urlStr = buildURL();
+		//List<String> urls = new ArrayList<String>();
 		
 		for (int i = 0; i < pageCount; i++) {
 			urls.add(buildPageUrl(urlStr, i + 1));
 		}
 		
-		return urls;
+		
 	}
 	
 	public String buildPageUrl(String urlStr, int pagenumber){
@@ -76,7 +76,7 @@ public class DNA extends EpaperBase {
 //        return paperName.toString();
 //	}
 
-	public String buildURL(Language lang, String city, Date date) {
+	public String buildURL() {
 
 		if (!citymap.containsKey(lang))
 			return null;
