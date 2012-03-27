@@ -26,7 +26,6 @@ public class DeleteEpaperTask extends TimerTask {
 		//Account account = ds.getAccountInfo();
 //		System.out.print("Delele folder - " + folder2 + "  ACCOUNT INFO : "
 //				+ account.email);
-
 		ds.deleteFile(folder2);
 		//ds.getAPI().fileDelete(folder1, folder2, "");
 

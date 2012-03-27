@@ -81,6 +81,7 @@ public class INDIANEXPRESS extends EpaperBase {
 		urlStr = new StringBuilder("http://epaper.indianexpress.com/pdf/get/");
 		urlStr.append(s[3]).append("/");
 		}catch(IOException e){
+			e.printStackTrace();
 			return null;
 		}
 		return urlStr.toString();
