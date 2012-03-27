@@ -87,7 +87,7 @@ public abstract class EpaperBase {
 		this.size = 0;
 	}
 
-	protected abstract void buildPageUrls();
+	public abstract void buildPageUrls();
 
 	public String buildFileName() {
 		StringBuilder paperName = new StringBuilder(name);

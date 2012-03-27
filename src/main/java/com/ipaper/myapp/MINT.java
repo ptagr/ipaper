@@ -41,7 +41,7 @@ public class MINT extends EpaperBase {
 		maxNumPerConn = 1;
 		
 		id = buildFileName();
-		buildPageUrls();
+		//buildPageUrls();
 	}
 
 
@@ -63,7 +63,7 @@ public class MINT extends EpaperBase {
 	}
 
 	@Override
-	protected void buildPageUrls() {
+	public void buildPageUrls() {
 		String urlStr = buildURL(lang, city, date);
 		List<String> urls = new ArrayList<String>();
 

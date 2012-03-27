@@ -29,7 +29,7 @@ public class MIDDAY extends EpaperBase {
 		expiryTimeInterval = 30 * 60; // 30 minutes
 		maxNumPerConn = 1;
 		id = buildFileName();
-		buildPageUrls();
+		//buildPageUrls();
 	}
 
 	void populateCSMap() {
@@ -60,7 +60,7 @@ public class MIDDAY extends EpaperBase {
 	}
 
 	@Override
-	protected void buildPageUrls() {
+	public void buildPageUrls() {
 		String urlStr = buildURL(lang, city, date);
 		List<String> urls = new ArrayList<String>();
 

@@ -55,7 +55,7 @@ public class EpaperTask {
 		System.out.println("STARTTIME - "
 				+ new SimpleDateFormat("ddMMyyyy HH:mm:ss:SS")
 						.format(new Date()));
-		//epaper.buildPageUrls();
+		epaper.buildPageUrls();
 		if(epaper.getUrls()== null || epaper.getUrls().size() == 0){
 			return new byte[0];
 		}

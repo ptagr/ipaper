@@ -45,7 +45,7 @@ public class DNA extends EpaperBase {
 	}
 
 	
-	protected void buildPageUrls() {
+	public void buildPageUrls() {
 		String urlStr = buildURL();
 		//List<String> urls = new ArrayList<String>();
 		
