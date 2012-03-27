@@ -1,0 +1,100 @@
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1106)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at java.security.AccessController.doPrivileged(Native Method)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at com.ipaper.myapp.HttpDownloader.run(HttpDownloader.java:123)
+2012-03-27T22:39:29+00:00 app[web.1]: Caused by: java.io.FileNotFoundException: http://cdn.epaper.dnaindia.com/epaperimages/pune/27032012/26pune-pg2-0.pdf
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1401)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:397)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at com.ipaper.myapp.HttpDownloader.run(HttpDownloader.java:118)
+2012-03-27T22:39:29+00:00 app[web.1]: java.io.FileNotFoundException: http://cdn.epaper.dnaindia.com/epaperimages/pune/27032012/26pune-pg28-0.pdf
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.reflect.GeneratedConstructorAccessor18.newInstance(Unknown Source)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at java.lang.reflect.Constructor.newInstance(Constructor.java:532)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at java.security.AccessController.doPrivileged(Native Method)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1458)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1452)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1106)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at com.ipaper.myapp.HttpDownloader.run(HttpDownloader.java:123)
+2012-03-27T22:39:29+00:00 app[web.1]: Caused by: java.io.FileNotFoundException: http://cdn.epaper.dnaindia.com/epaperimages/pune/27032012/26pune-pg28-0.pdf
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1401)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:397)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at com.ipaper.myapp.HttpDownloader.run(HttpDownloader.java:118)
+2012-03-27T22:39:29+00:00 app[web.1]: java.io.FileNotFoundException: http://cdn.epaper.dnaindia.com/epaperimages/pune/27032012/26pune-pg25-0.pdf
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.reflect.GeneratedConstructorAccessor18.newInstance(Unknown Source)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at java.lang.reflect.Constructor.newInstance(Constructor.java:532)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1458)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at java.security.AccessController.doPrivileged(Native Method)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1452)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1106)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at com.ipaper.myapp.HttpDownloader.run(HttpDownloader.java:123)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1401)
+2012-03-27T22:39:29+00:00 app[web.1]: Caused by: java.io.FileNotFoundException: http://cdn.epaper.dnaindia.com/epaperimages/pune/27032012/26pune-pg25-0.pdf
+2012-03-27T22:39:29+00:00 app[web.1]: 	at com.ipaper.myapp.HttpDownloader.run(HttpDownloader.java:118)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:397)
+2012-03-27T22:39:29+00:00 app[web.1]: java.io.FileNotFoundException: http://cdn.epaper.dnaindia.com/epaperimages/pune/27032012/26pune-pg26-0.pdf
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.reflect.GeneratedConstructorAccessor18.newInstance(Unknown Source)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at java.lang.reflect.Constructor.newInstance(Constructor.java:532)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1458)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at java.security.AccessController.doPrivileged(Native Method)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1452)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1106)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at com.ipaper.myapp.HttpDownloader.run(HttpDownloader.java:123)
+2012-03-27T22:39:29+00:00 app[web.1]: Caused by: java.io.FileNotFoundException: http://cdn.epaper.dnaindia.com/epaperimages/pune/27032012/26pune-pg26-0.pdf
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1401)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:397)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at com.ipaper.myapp.HttpDownloader.run(HttpDownloader.java:118)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+2012-03-27T22:39:29+00:00 app[web.1]: java.io.FileNotFoundException: http://cdn.epaper.dnaindia.com/epaperimages/pune/27032012/26pune-pg30-0.pdf
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.reflect.GeneratedConstructorAccessor18.newInstance(Unknown Source)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at java.lang.reflect.Constructor.newInstance(Constructor.java:532)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1458)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1452)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at java.security.AccessController.doPrivileged(Native Method)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1106)
+2012-03-27T22:39:29+00:00 app[web.1]: Caused by: java.io.FileNotFoundException: http://cdn.epaper.dnaindia.com/epaperimages/pune/27032012/26pune-pg30-0.pdf
+2012-03-27T22:39:29+00:00 app[web.1]: 	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:397)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at com.ipaper.myapp.HttpDownloader.run(HttpDownloader.java:118)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at com.ipaper.myapp.HttpDownloader.run(HttpDownloader.java:123)
+2012-03-27T22:39:29+00:00 app[web.1]: 	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1401)
+2012-03-27T22:39:30+00:00 app[web.1]: no of pages : 0
+2012-03-27T22:39:30+00:00 app[web.1]: Size - 0KB
+2012-03-27T22:39:30+00:00 app[web.1]: ENDTIME - 27032012 22:39:30:31
+2012-03-27T22:39:30+00:00 app[web.1]: cname : com.ipaper.myapp.HINDUSTAN_TIMES
+2012-03-27T22:39:30+00:00 app[web.1]: Content size 0
+2012-03-27T22:39:30+00:00 app[web.1]: Scheduled Task : Generating epaper for paramenters : (HT, KOLKATA, ENGLISH, 27032012)
+2012-03-27T22:39:30+00:00 app[web.1]: STARTTIME - 27032012 22:39:30:237
+2012-03-27T22:39:30+00:00 app[web.1]: Content size 0
+2012-03-27T22:39:30+00:00 app[web.1]: cname : com.ipaper.myapp.HINDUSTAN_TIMES
+2012-03-27T22:39:30+00:00 app[web.1]: Scheduled Task : Generating epaper for paramenters : (HT, DELHI, ENGLISH, 27032012)
+2012-03-27T22:39:30+00:00 app[web.1]: STARTTIME - 27032012 22:39:30:247
+2012-03-27T22:39:30+00:00 app[web.1]: Content size 0
+2012-03-27T22:39:30+00:00 app[web.1]: cname : com.ipaper.myapp.HINDUSTAN_TIMES
+2012-03-27T22:39:30+00:00 app[web.1]: Scheduled Task : Generating epaper for paramenters : (HT, MUMBAI, ENGLISH, 27032012)
+2012-03-27T22:39:30+00:00 app[web.1]: STARTTIME - 27032012 22:39:30:256
+2012-03-27T22:39:30+00:00 app[web.1]: Content size 0
+2012-03-27T22:39:30+00:00 app[web.1]: cname : com.ipaper.myapp.HINDUSTAN_TIMES
+2012-03-27T22:39:30+00:00 app[web.1]: Scheduled Task : Generating epaper for paramenters : (HT, CHANDIGARH, ENGLISH, 27032012)
+2012-03-27T22:39:30+00:00 app[web.1]: STARTTIME - 27032012 22:39:30:278
+2012-03-27T22:39:30+00:00 app[web.1]: Content size 0
+2012-03-27T22:39:30+00:00 app[web.1]: cname : com.ipaper.myapp.DAINIK
+2012-03-27T22:39:30+00:00 app[web.1]: Scheduled Task : Generating epaper for paramenters : (DAINIK, LUCKNOW, HINDI, 27032012)
+2012-03-27T22:39:30+00:00 app[web.1]: STARTTIME - 27032012 22:39:30:286
+2012-03-27T22:39:30+00:00 app[web.1]: cname : com.ipaper.myapp.DAINIK
+2012-03-27T22:39:30+00:00 app[web.1]: Content size 0
+2012-03-27T22:39:30+00:00 app[web.1]: Scheduled Task : Generating epaper for paramenters : (DAINIK, RANCHI, HINDI, 27032012)
+2012-03-27T22:39:30+00:00 app[web.1]: STARTTIME - 27032012 22:39:30:290
+2012-03-27T22:39:30+00:00 app[web.1]: cname : com.ipaper.myapp.DAINIK
+2012-03-27T22:39:30+00:00 app[web.1]: Content size 0
+2012-03-27T22:39:30+00:00 app[web.1]: Scheduled Task : Generating epaper for paramenters : (DAINIK, PATNA, HINDI, 27032012)
+2012-03-27T22:39:30+00:00 app[web.1]: STARTTIME - 27032012 22:39:30:294
+2012-03-27T22:39:30+00:00 app[web.1]: Content size 0
+2012-03-27T22:39:30+00:00 app[web.1]: Scheduled Task : Generating epaper for paramenters : (DAINIK, DELHI, HINDI, 27032012)
+2012-03-27T22:39:30+00:00 app[web.1]: cname : com.ipaper.myapp.DAINIK
+2012-03-27T22:39:30+00:00 app[web.1]: STARTTIME - 27032012 22:39:30:298
+2012-03-27T22:39:30+00:00 app[web.1]: Content size 0
+2012-03-27T22:39:30+00:00 app[web.1]: cname : com.ipaper.myapp.MINT
+2012-03-27T22:39:30+00:00 app[web.1]: Scheduled Task : Generating epaper for paramenters : (MINT, INDIA, ENGLISH, 27032012)
+2012-03-27T22:39:30+00:00 app[web.1]: urlStr : http://epaper.livemint.com/PDFHandler.ashx?p1=Web&p2=27_03_2012_
+2012-03-27T22:39:30+00:00 app[web.1]: STARTTIME - 27032012 22:39:30:309
+2012-03-27T22:39:30+00:00 app[web.1]: Content size 0
