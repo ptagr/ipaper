@@ -151,7 +151,12 @@ public class EpaperTask {
 			temp = mongoTemplate.findById(epaper.getId(), EpaperBase.class,
 					com.ipaper.myapp.Collections.epaperCollectionName);
 			if (temp != null) {
-				return temp.getUrl();
+				System.out.println("PAPER FOUND IN DB");
+				if(temp.getUrl() != null && temp.getUrl().length() > 0){
+					System.out.println("URL : "+ temp.getUrl());
+					return temp.getUrl();
+					
+				}
 			}
 
 //			boolean f = epaper.isPaperOnDropbox();
