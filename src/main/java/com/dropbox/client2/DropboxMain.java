@@ -17,11 +17,13 @@ import com.dropbox.client2.session.Session.AccessType;
 import com.dropbox.client2.session.WebAuthSession;
 
 public class DropboxMain {
-	final static private String APP_KEY = "37l10v98htoqexu";
-	final static private String APP_SECRET = "rmogh61upb66syt";
-	  static private String ACCESS_TOKEN_KEY = "ulg9dkuflah3wi3"; // Read
+	final static private String APP_KEY = "ma2gq2wq1t6xf6k";
+	final static private String APP_SECRET = "ib8q27zr90tmu7r";
+	//static private String ACCESS_TOKEN_KEY = "ulg9dkuflah3wi3"; // Read
+	  static private String ACCESS_TOKEN_KEY = "b8alqay26wuviaa"; // Read
 	 // key
-	  static private String ACCESS_TOKEN_SECRET = "2u7eo3j7aj9skmk";
+	  static private String ACCESS_TOKEN_SECRET = "zxl452rs48y3g3b";
+	  //static private String ACCESS_TOKEN_SECRET = "2u7eo3j7aj9skmk";
 //	static private String ACCESS_TOKEN_KEY = ""; // Read
 //	// key
 //	static private String ACCESS_TOKEN_SECRET = "";
@@ -57,7 +59,8 @@ public class DropboxMain {
 				ACCESS_TOKEN_KEY = session.getAccessTokenPair().key;
 
 				ACCESS_TOKEN_SECRET = session.getAccessTokenPair().secret;
-
+				System.out.println(ACCESS_TOKEN_KEY);
+				System.out.println(ACCESS_TOKEN_SECRET);
 				System.out.println("Authentication Successful!");
 
 			} catch (DropboxException e) {
