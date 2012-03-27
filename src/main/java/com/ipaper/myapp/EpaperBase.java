@@ -53,9 +53,9 @@ public abstract class EpaperBase {
 	protected Date generatedTime;
 	protected float size;
 	
-	@Transient
-	protected transient List<InputStream> pdfs = Collections
-			.synchronizedList(new ArrayList<InputStream>());
+//	@Transient
+//	protected transient List<InputStream> pdfs = Collections
+//			.synchronizedList(new ArrayList<InputStream>());
 			
 	@Transient
 	protected transient List<String> urls = Collections
@@ -237,17 +237,17 @@ public abstract class EpaperBase {
 	// return false;
 	// }
 
-	public List<InputStream> getPdfs() {
-		return pdfs;
-	}
-
-	public void setPdfs(List<InputStream> pdfs) {
-		this.pdfs = pdfs;
-	}
-	
-	public void insertPdf(InputStream pdf) {
-		this.pdfs.add(pdf);
-	}
+//	public List<InputStream> getPdfs() {
+//		return pdfs;
+//	}
+//
+//	public void setPdfs(List<InputStream> pdfs) {
+//		this.pdfs = pdfs;
+//	}
+//	
+//	public void insertPdf(InputStream pdf) {
+//		this.pdfs.add(pdf);
+//	}
 
 	public String uploadToDropbox(byte content[]) {
 		SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy");

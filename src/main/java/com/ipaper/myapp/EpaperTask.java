@@ -74,10 +74,13 @@ public class EpaperTask {
 				dm.createDownload(new URL(epaper.getUrls().get(i)), cbbList,
 						epaper.getName());
 			}
+			
+			
+			dm.startAllDownloads();
+			
+			dm.waitForDownloads();
 
-			while (!dm.areDownloadsOver()) {
-			}
-			;
+			
 			dm = null;
 			System.gc();
 
