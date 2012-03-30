@@ -36,6 +36,12 @@ public class HINDUHttpDownloader extends HttpDownloader {
 		super(url, cbb);
 
 	}
+	
+
+	public HINDUHttpDownloader(String url) {
+		super(url);
+
+	}
 
 	@Override
 	public void exitConnect() {

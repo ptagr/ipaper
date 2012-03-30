@@ -1,5 +1,6 @@
 package com.ipaper.myapp;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -118,28 +119,37 @@ public class MyPDFUtility {
 		}
 	}
 
-	public static byte[] concatPDFs(List<CircularByteBuffer> cbbpdfs, int pages) {
+	public static byte[] concatPDFs(List<ByteArrayOutputStream> cbbpdfs, int pages) {
 
 		Document document = new Document();
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {
 
 			List<PdfReader> readers = new ArrayList<PdfReader>();
-			Iterator<CircularByteBuffer> iteratorPDFs = cbbpdfs.iterator();
+			//Iterator<CircularByteBuffer> iteratorPDFs = cbbpdfs.iterator();
 
 			
-			// Create Readers for the pdfs.
-			while (iteratorPDFs.hasNext() && pages > 0) {
-				CircularByteBuffer cbb = iteratorPDFs.next();
-				if(cbb.getAvailable() < 1024)
+			for(ByteArrayOutputStream _baos : cbbpdfs){
+				if(_baos.size() < 1024)
 					continue;
-				System.out.println("Page size : " + cbb.getAvailable());
-				InputStream pdf = cbb.getInputStream();
+				System.out.println("Page size : " + _baos.size());
+				InputStream pdf = new ByteArrayInputStream(_baos.toByteArray());
 				PdfReader pdfReader = new PdfReader(pdf);
 				readers.add(pdfReader);
-				pages--;
-				
 			}
+			
+			// Create Readers for the pdfs.
+//			while (iteratorPDFs.hasNext() && pages > 0) {
+//				CircularByteBuffer cbb = iteratorPDFs.next();
+//				if(cbb.getAvailable() < 1024)
+//					continue;
+//				System.out.println("Page size : " + cbb.getAvailable());
+//				InputStream pdf = new ByteArrayInputStream(arg0)
+//				PdfReader pdfReader = new PdfReader(pdf);
+//				readers.add(pdfReader);
+//				pages--;
+//				
+//			}
 
 			System.out.println("Readers size : " + readers.size());
 

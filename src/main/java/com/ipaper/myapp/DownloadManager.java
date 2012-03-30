@@ -1,5 +1,6 @@
 package com.ipaper.myapp;
 
+import java.io.ByteArrayOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class DownloadManager {
 	protected ExecutorService executorService = Executors
 			.newFixedThreadPool(MAX_PAGES);
 	
-	protected List<CircularByteBuffer> cbbList = new ArrayList<CircularByteBuffer>();
+	//protected List<CircularByteBuffer> cbbList = new ArrayList<CircularByteBuffer>();
 	
 	//protected EpaperBase epaper = null;
 
@@ -48,9 +49,9 @@ public class DownloadManager {
 	/** Protected constructor */
 	private DownloadManager() {
 		mNumConnPerDownload = DEFAULT_NUM_CONN_PER_DOWNLOAD;
-		for (int i = 0; i < MAX_PAGES; i++) {
-			cbbList.add(new CircularByteBuffer(CircularByteBuffer.INFINITE_SIZE));
-		}
+//		for (int i = 0; i < MAX_PAGES; i++) {
+//			cbbList.add(new CircularByteBuffer(CircularByteBuffer.INFINITE_SIZE));
+//		}
 		
 		//mDownloadList = new ArrayList<Downloader>();
 	}
@@ -59,12 +60,12 @@ public class DownloadManager {
 
 		
 		
-		List<Future<CircularByteBuffer>> cbbFutures = new ArrayList<Future<CircularByteBuffer>>();
+		List<Future<ByteArrayOutputStream>> cbbFutures = new ArrayList<Future<ByteArrayOutputStream>>();
 		
 		//CLear the cbbList
-		for(CircularByteBuffer cbb : cbbList){
-			cbb.clear();
-		}
+//		for(CircularByteBuffer cbb : cbbList){
+//			cbb.clear();
+//		}
 		
 		// Create all the downloads
 		for (int i = 0; i < epaper.getUrls().size(); i++) {
@@ -72,13 +73,13 @@ public class DownloadManager {
 			String epapername = epaper.getName();
 			String url = epaper.getUrls().get(i);
 			if (epapername.equalsIgnoreCase("ht")) {
-				fd = new HTHttpDownloader(url, cbbList.get(i));
+				fd = new HTHttpDownloader(url);
 			} else if (epapername.equalsIgnoreCase("mint")) {
-				fd = new MINTHttpDownloader(url, cbbList.get(i));
+				fd = new MINTHttpDownloader(url);
 			} else if (epapername.equalsIgnoreCase("hindu")) {
-				fd = new HINDUHttpDownloader(url, cbbList.get(i));
+				fd = new HINDUHttpDownloader(url);
 			} else
-				fd = new HttpDownloader(url, cbbList.get(i));
+				fd = new HttpDownloader(url);
 
 			
 			
@@ -89,14 +90,19 @@ public class DownloadManager {
 		
 		int pages = 0;
 		
+		List<ByteArrayOutputStream> _baosList = new ArrayList<ByteArrayOutputStream>();
+		
 		//Wait for downloads to finish in order
-		for(Future<CircularByteBuffer> f : cbbFutures){
+		for(Future<ByteArrayOutputStream> f : cbbFutures){
 			try {
 //				CircularByteBuffer cbb = f.get();
 //				if(cbb != null)
 //					cbbList.add(cbb);
-				if(f.get() != null)
+				ByteArrayOutputStream _baos = f.get();
+				if(_baos != null){
 					pages++;
+					_baosList.add(_baos);
+				}
 			} catch (InterruptedException e) {
 				System.out.println("exception while waiting for future");
 				e.printStackTrace();
@@ -109,12 +115,12 @@ public class DownloadManager {
 		System.out.println("no of pages : " + pages);
 		epaper.setPageCount(pages);
 		
-		return mergeCBBPDFs(cbbList, pages);
+		return mergeCBBPDFs(_baosList, pages);
 
 		// return fd;
 	}
 	
-	public byte[] mergeCBBPDFs(List<CircularByteBuffer> cbbList, int pages) {
+	public byte[] mergeCBBPDFs(List<ByteArrayOutputStream> cbbList, int pages) {
 		if (cbbList.isEmpty()) {
 			return new byte[0];
 		} else {

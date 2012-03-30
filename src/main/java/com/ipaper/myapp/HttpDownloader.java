@@ -66,104 +66,12 @@ public class HttpDownloader extends Downloader {
 		return conn;
 	}
 
-	public void run() {
+	
 
-		// ByteArrayOutputStream[] _baos = new ByteArrayOutputStream[1 +
-		// mNumConnections];
-		HttpURLConnection conn = null;
-
-		BufferedInputStream in = null;
-
-		OutputStream _baos = null;
-
-//		CircularByteBuffer cbb = new CircularByteBuffer(
-//				CircularByteBuffer.INFINITE_SIZE);
-
-		try {
-			// Open connection to URL
-			initConnect();
-			conn = customConnect(-1, -1);
-
-			// Make sure the response code is in the 200 range.
-			if (conn.getResponseCode() / 100 != 2) {
-				setState(ERROR);
-				System.out.println("Wrong error code :"
-						+ conn.getResponseCode() + " : " + mURL.toString());
-			}
-
-			// Check for valid content length.
-			int contentLength = conn.getContentLength();
-			System.out.println(mURL.toString() + " : " + contentLength
-					+ " bytes ");
-
-			if (contentLength < 1) {
-				setState(ERROR);
-				System.out.println("Invalid Content Length :" + contentLength
-						+ " : " + mURL.toString());
-			}
-
-			
-
-			// Download the pdf in here
-
-			// open Http connection to URL
-
-			int startByte = 0;
-			int endByte = contentLength - 1;
-			try {
-				conn = customConnect(startByte, endByte);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			// Make sure the response code is in the 200 range.
-			if (conn.getResponseCode() / 100 != 2) {
-				error();
-			}
-
-			// get the input stream
-			in = new BufferedInputStream(conn.getInputStream());
-
-			// _baos = new ByteArrayOutputStream();
-			//Clear the previous bytes
-			this.cbb.clear();
-			
-			_baos = cbb.getOutputStream();
-
-			byte data[] = new byte[BUFFER_SIZE];
-			int numRead;
-			int totalnumRead = 0;
-
-			while (((numRead = in.read(data, 0, BUFFER_SIZE)) != -1)) {
-				// write to buffer
-				totalnumRead += numRead;
-				_baos.write(data, 0, numRead);
-			}
-
-			System.out.println("Total Read : " + totalnumRead);
-			// Check for synchronization problem
-			// mbaosList.add(_baos);
-
-			// DownloadManager.cbbList.add(cbb);
-
-			setState(COMPLETED);
-			System.out.println("Page downloaded : " + mURL);
-			in.close();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			setState(ERROR);
-		} finally {
-
-		}
-	}
-
-	public CircularByteBuffer call() throws Exception {
+	public ByteArrayOutputStream call() throws Exception {
 		HttpURLConnection conn = null;
 		BufferedInputStream in = null;
-		OutputStream _baos = null;
+		ByteArrayOutputStream _baos = null;
 		
 
 		try {
@@ -219,10 +127,10 @@ public class HttpDownloader extends Downloader {
 			in = new BufferedInputStream(conn.getInputStream());
 
 			//Clear the previous bytes
-			this.cbb.clear();
+			//this.cbb.clear();
 			
 			// _baos = new ByteArrayOutputStream();
-			_baos = this.cbb.getOutputStream();
+			_baos = new ByteArrayOutputStream();
 
 			byte data[] = new byte[BUFFER_SIZE];
 			int numRead;
@@ -239,7 +147,7 @@ public class HttpDownloader extends Downloader {
 			setState(COMPLETED);
 			// System.out.println("Page downloaded : "+mURL);
 			in.close();
-			return cbb;
+			return _baos;
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

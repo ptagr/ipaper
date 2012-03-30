@@ -83,7 +83,7 @@ public class HTTest {
 		
 		ByteArrayOutputStream _boutStream = new ByteArrayOutputStream();
 
-		MyPDFUtility.concatPDFs(cbList, 2);
+		//MyPDFUtility.concatPDFs(cbList, 2);
 		
 		System.out.println("PAPERS MERGED");
 		

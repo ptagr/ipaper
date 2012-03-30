@@ -77,16 +77,16 @@ public class EpaperTask {
 //	}
 	
 	
-	public byte[] mergeCBBPDFs(List<CircularByteBuffer> cbbList, int pages) {
-		if (cbbList.isEmpty()) {
-			return new byte[0];
-		} else {
-
-			// System.out.println("MERGING PDFs");
-
-			return MyPDFUtility.concatPDFs(cbbList, pages);
-		}
-	}
+//	public byte[] mergeCBBPDFs(List<CircularByteBuffer> cbbList, int pages) {
+//		if (cbbList.isEmpty()) {
+//			return new byte[0];
+//		} else {
+//
+//			// System.out.println("MERGING PDFs");
+//
+//			return MyPDFUtility.concatPDFs(cbbList, pages);
+//		}
+//	}
 
 	public String generateEpaper(boolean delete, MongoTemplate mongoTemplate) {
 		String returnUrl = "";

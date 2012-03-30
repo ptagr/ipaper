@@ -14,7 +14,7 @@ import java.util.concurrent.Callable;
 
 import com.Ostermiller.util.CircularByteBuffer;
 
-public abstract class Downloader implements Callable<CircularByteBuffer>{
+public abstract class Downloader implements Callable<ByteArrayOutputStream>{
 	
 	// Member variables
 	/** The URL to download the file */
