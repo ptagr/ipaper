@@ -45,7 +45,7 @@ public class HTTest {
 	@Test
 	public void testDownloader() throws MalformedURLException{
 		List<CircularByteBuffer> cbList = new ArrayList<CircularByteBuffer>();
-		HTHttpDownloader htd = new HTHttpDownloader(new URL("http://epaper.hindustantimes.com/PUBLICATIONS/HT/HD/2011/11/14/PagePrint/14_11_2011_001.pdf"),cbList);
+		HTHttpDownloader htd = new HTHttpDownloader(new URL("http://epaper.hindustantimes.com/PUBLICATIONS/HT/HD/2011/11/14/PagePrint/14_11_2011_001.pdf"));
 		
 		
 		//htd.run();
@@ -54,16 +54,19 @@ public class HTTest {
 	
 	public static void main(String[] args) throws IOException {
 		
-		DownloadManager dm = new DownloadManager();
+		DownloadManager dm = DownloadManager.getInstance();
 
 		List<CircularByteBuffer> cbList = new ArrayList<CircularByteBuffer>();
-		dm.createDownload(new URL("http://epaper.hindustantimes.com/PUBLICATIONS/HT/HM/2011/11/22/PagePrint/22_11_2011_013.pdf"),cbList, "ht");
-		dm.createDownload(new URL("http://epaper.hindustantimes.com/PUBLICATIONS/HT/HM/2011/11/22/PagePrint/22_11_2011_012.pdf"),cbList, "ht");
+//		dm.createDownload(new URL("http://epaper.hindustantimes.com/PUBLICATIONS/HT/HM/2011/11/22/PagePrint/22_11_2011_013.pdf"),cbList, "ht");
+//		dm.createDownload(new URL("http://epaper.hindustantimes.com/PUBLICATIONS/HT/HM/2011/11/22/PagePrint/22_11_2011_012.pdf"),cbList, "ht");
 		//dm.createDownload(new URL("http://epaper.hindustantimes.com/PUBLICATIONS/HT/HM/2011/11/22/PagePrint/22_11_2011_011.pdf"),cbList, "ht");
 		
-		dm.startAllDownloads();
 		
-		dm.waitForDownloads();
+		
+		
+//		dm.startAllDownloads();
+//		
+//		dm.waitForDownloads();
 		
 		//HTHttpDownloader htd = new HTHttpDownloader(new URL("http://epaper.hindustantimes.com/PUBLICATIONS/HT/HM/2011/11/22/PagePrint/22_11_2011_013.pdf"),cbList);
 		
@@ -80,7 +83,7 @@ public class HTTest {
 		
 		ByteArrayOutputStream _boutStream = new ByteArrayOutputStream();
 
-		MyPDFUtility.concatPDFs(cbList, _boutStream);
+		MyPDFUtility.concatPDFs(cbList);
 		
 		System.out.println("PAPERS MERGED");
 		

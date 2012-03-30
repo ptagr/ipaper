@@ -1,5 +1,6 @@
 package com.ipaper.myapp;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -68,8 +69,8 @@ public class MyPDFUtility {
 				PdfReader pdfReader = new PdfReader(pdf);
 				readers.add(pdfReader);
 			}
-			
-			System.out.println("Readers size : "+readers.size());
+
+			System.out.println("Readers size : " + readers.size());
 
 			PdfCopy writer = new PdfCopy(document, outputStream);
 
@@ -93,7 +94,7 @@ public class MyPDFUtility {
 				}
 				pageOfCurrentReaderPDF = 0;
 			}
-			
+
 			outputStream.flush();
 			readers = null;
 			document.close();
@@ -116,24 +117,31 @@ public class MyPDFUtility {
 			}
 		}
 	}
-	
-	public static void concatPDFs(List<CircularByteBuffer> cbbpdfs,
-			OutputStream outputStream) {
-		
+
+	public static byte[] concatPDFs(List<CircularByteBuffer> cbbpdfs, int pages) {
+
 		Document document = new Document();
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {
 
 			List<PdfReader> readers = new ArrayList<PdfReader>();
 			Iterator<CircularByteBuffer> iteratorPDFs = cbbpdfs.iterator();
 
+			
 			// Create Readers for the pdfs.
-			while (iteratorPDFs.hasNext()) {
-				InputStream pdf = iteratorPDFs.next().getInputStream();
+			while (iteratorPDFs.hasNext() && pages > 0) {
+				CircularByteBuffer cbb = iteratorPDFs.next();
+				if(cbb.getAvailable() < 1024)
+					continue;
+				System.out.println("Page size : " + cbb.getAvailable());
+				InputStream pdf = cbb.getInputStream();
 				PdfReader pdfReader = new PdfReader(pdf);
 				readers.add(pdfReader);
+				pages--;
+				
 			}
-			
-			System.out.println("Readers size : "+readers.size());
+
+			System.out.println("Readers size : " + readers.size());
 
 			PdfCopy writer = new PdfCopy(document, outputStream);
 
@@ -157,13 +165,15 @@ public class MyPDFUtility {
 				}
 				pageOfCurrentReaderPDF = 0;
 			}
-			
+
 			outputStream.flush();
 			readers = null;
-			document.close();
-			outputStream.close();
+
+			return outputStream.toByteArray();
+
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		} finally {
 			try {
 				if (document.isOpen())

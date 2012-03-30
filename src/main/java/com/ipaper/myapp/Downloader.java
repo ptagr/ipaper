@@ -3,32 +3,29 @@ package com.ipaper.myapp;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
+import java.util.concurrent.Callable;
 
 import com.Ostermiller.util.CircularByteBuffer;
 
-public abstract class Downloader extends Thread{
+public abstract class Downloader implements Callable<CircularByteBuffer>{
 	
 	// Member variables
 	/** The URL to download the file */
 	protected URL mURL;
 	
-	/** Output folder for downloaded file */
-	protected String mOutputFolder;
+	
 	
 	/** Number of connections (threads) to download the file */
 	protected int mNumConnections;
 	
-	/** The file name, extracted from URL */
-	protected String mFileName;
-	
-	/** Size of the downloaded file (in bytes) */
-	protected int mFileSize;
+
 	
 	/** The state of the download */
 	protected int mState;
@@ -38,10 +35,8 @@ public abstract class Downloader extends Thread{
 	
 	protected int mdownloadNum;
 	
-	protected List<CircularByteBuffer> cbbList = null;
+	//protected static List<CircularByteBuffer> cbbList = null;
 	
-	
-
 	
 	// Contants for block and buffer size
 	protected static final int BLOCK_SIZE = 4096;
@@ -60,6 +55,9 @@ public abstract class Downloader extends Thread{
 	public static final int CANCELLED = 3;
 	public static final int ERROR = 4;
 	
+	protected CircularByteBuffer cbb = null;
+	
+	
 	/**
 	 * Constructor
 	 * @param fileURL
@@ -72,35 +70,47 @@ public abstract class Downloader extends Thread{
 //	}
 	
 	
-	protected Downloader(URL url, String outputFolder, int numConnections, int downloadNum) {
-		mURL = url;
-		mOutputFolder = outputFolder;
-		mNumConnections = numConnections;
-		
-		// Get the file name from url path
-		String fileURL = url.getFile();
-		mFileName = fileURL.substring(fileURL.lastIndexOf('/') + 1);
-//		/System.out.println("File name: " + mFileName);
-		mFileSize = -1;
-		mState = DOWNLOADING;
-		mDownloaded = 0;
-		mdownloadNum = downloadNum;
-	}
 	
-	protected Downloader(URL url, List<CircularByteBuffer> cbbList) {
+	
+	protected Downloader(URL url) {
 		mURL = url;
-		mOutputFolder = "";
 		mNumConnections = 1;
 		
-		// Get the file name from url path
-		String fileURL = url.getFile();
-		mFileName = fileURL.substring(fileURL.lastIndexOf('/') + 1);
-//		/System.out.println("File name: " + mFileName);
-		mFileSize = -1;
 		mState = DOWNLOADING;
 		mDownloaded = 0;
 		mdownloadNum = 0;
-		this.cbbList= cbbList;
+	}
+	
+	
+	protected Downloader(String url) {
+		try {
+			mURL = new URL(url);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		mNumConnections = 1;
+		
+		mState = DOWNLOADING;
+		mDownloaded = 0;
+		mdownloadNum = 0;
+	}
+	
+	protected Downloader(String url, CircularByteBuffer cbb) {
+		try {
+			this.cbb = cbb;
+			mURL = new URL(url);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		mNumConnections = 1;
+		
+		mState = DOWNLOADING;
+		mDownloaded = 0;
+		mdownloadNum = 0;
 	}
 	
 	/**
@@ -132,19 +142,7 @@ public abstract class Downloader extends Thread{
 		return mURL.toString();
 	}
 	
-	/**
-	 * Get the downloaded file's size
-	 */
-	public int getFileSize() {
-		return mFileSize;
-	}
-	
-	/**
-	 * Get the current progress of the download
-	 */
-	public float getProgress() {
-		return ((float)mDownloaded / mFileSize) * 100;
-	}
+
 	
 	/**
 	 * Get current state of the downloader
@@ -182,13 +180,25 @@ public abstract class Downloader extends Thread{
 		return;
 	}
 
-	public List<CircularByteBuffer> getCbbList() {
-		return cbbList;
+
+	public CircularByteBuffer getCbb() {
+		return cbb;
 	}
 
-	public void setCbbList(List<CircularByteBuffer> cbbList) {
-		this.cbbList = cbbList;
+
+	public void setCbb(CircularByteBuffer cbb) {
+		this.cbb = cbb;
 	}
+
+
+
+//	public static List<CircularByteBuffer> getCbbList() {
+//		return cbbList;
+//	}
+//
+//	public static void setCbbList(List<CircularByteBuffer> cbbList) {
+//		Downloader.cbbList = cbbList;
+//	}
 	
 	
 	

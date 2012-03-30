@@ -27,16 +27,21 @@ public class MINTHttpDownloader extends HttpDownloader {
 	// super(url, outputFolder, numConnections, downloadNum, baisList);
 	// }
 
-	public MINTHttpDownloader(URL url, String outputFolder, int numConnections,
-			int downloadNum) {
-		super(url, outputFolder, numConnections, downloadNum);
-		
+	
+	
+	public MINTHttpDownloader(URL url) {
+		super(url);
 	}
 	
-	public MINTHttpDownloader(URL url, List<CircularByteBuffer> cbbList) {
-		super(url, cbbList);
+	
+	public MINTHttpDownloader(String url) {
+		super(url);
 	}
 
+	public MINTHttpDownloader(String url, CircularByteBuffer cbb) {
+		super(url, cbb);
+	}
+	
 	@Override
 	public void exitConnect() {
 		myCookie = "";

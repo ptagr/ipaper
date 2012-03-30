@@ -27,8 +27,13 @@ public class HINDUHttpDownloader extends HttpDownloader {
 	// super(url, outputFolder, numConnections, downloadNum, baisList);
 	// }
 
-	public HINDUHttpDownloader(URL url, List<CircularByteBuffer> cbbList) {
-		super(url, cbbList);
+	public HINDUHttpDownloader(URL url) {
+		super(url);
+
+	}
+	
+	public HINDUHttpDownloader(String url, CircularByteBuffer cbb) {
+		super(url, cbb);
 
 	}
 

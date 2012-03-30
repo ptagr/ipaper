@@ -24,13 +24,18 @@ public class HTHttpDownloader extends HttpDownloader {
 	// super(url, outputFolder, numConnections, downloadNum, baisList);
 	// }
 
-	public HTHttpDownloader(URL url, String outputFolder, int numConnections,
-			int downloadNum) {
-		super(url, outputFolder, numConnections, downloadNum);
+	
+	
+	public HTHttpDownloader(URL url) {
+		super(url);
 	}
 	
-	public HTHttpDownloader(URL url, List<CircularByteBuffer> cbbList) {
-		super(url, cbbList);
+	public HTHttpDownloader(String url) {
+		super(url);
+	}
+	
+	public HTHttpDownloader(String url, CircularByteBuffer cbb) {
+		super(url, cbb);
 	}
 
 	@Override

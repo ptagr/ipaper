@@ -1,14 +1,8 @@
 package com.ipaper.myapp;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -18,14 +12,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import com.Ostermiller.util.CircularByteBuffer;
 
 public class EpaperTask {
-
-//	public List<InputStream> pdfs = Collections
-//			.synchronizedList(new ArrayList<InputStream>());
-
-	List<CircularByteBuffer> cbbList = Collections.
-			synchronizedList(new ArrayList<CircularByteBuffer>());
-	
-	private ByteArrayOutputStream _boutStream = new ByteArrayOutputStream();
 
 	protected EpaperBase epaper = null;
 
@@ -59,58 +45,22 @@ public class EpaperTask {
 		if(epaper.getUrls()== null || epaper.getUrls().size() == 0){
 			return new byte[0];
 		}
-		// for(String url : urls)
-		// System.out.println(url);
+
 		System.out.println("GETTING PDFs !!!! ");
-		// DownloadManager dm = DownloadManager.getInstance();
-		DownloadManager dm = new DownloadManager();
-		//ByteArrayInputStream[] baisList = new ByteArrayInputStream[epaper.getPdfs().size()];
+
 		
-		//List<CircularByteBuffer> cbbList = new ArrayList<CircularByteBuffer>();
-
+		
 		try {
-
-			for (int i = 0; i < epaper.getUrls().size(); i++) {
-				dm.createDownload(new URL(epaper.getUrls().get(i)), cbbList,
-						epaper.getName());
-			}
-			
-			
-			dm.startAllDownloads();
-			
-			dm.waitForDownloads();
-
-			
-			dm = null;
-			System.gc();
-
-//			for (ByteArrayInputStream bais : baisList) {
-//				if (bais != null) {
-//					pdfs.add(bais);
-//				}
-//			}
-
-			System.out.println("no of pages : " + cbbList.size());
-
-			epaper.setPageCount(cbbList.size());
-			//mergePDFs();
-			mergeCBBPDFs();
-
-			System.out.println("Size - " + _boutStream.size() / 1024 + "KB");
-			System.out.println("ENDTIME - "
-					+ new SimpleDateFormat("ddMMyyyy HH:mm:ss:SS")
-							.format(new Date()));
-			return _boutStream.toByteArray();
+			return DownloadManager.getInstance().download(epaper);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		} finally {
+
+			System.out.println("ENDTIME - "
+					+ new SimpleDateFormat("ddMMyyyy HH:mm:ss:SS")
+							.format(new Date()));
 			
-			
-			cbbList.clear();
-			cbbList = null;
-			_boutStream.close();
-			_boutStream = null;
 			System.gc();
 		}
 	}
@@ -127,23 +77,21 @@ public class EpaperTask {
 //	}
 	
 	
-	public void mergeCBBPDFs() {
+	public byte[] mergeCBBPDFs(List<CircularByteBuffer> cbbList, int pages) {
 		if (cbbList.isEmpty()) {
-			return;
+			return new byte[0];
 		} else {
 
 			// System.out.println("MERGING PDFs");
 
-			MyPDFUtility.concatPDFs(cbbList, _boutStream);
+			return MyPDFUtility.concatPDFs(cbbList, pages);
 		}
 	}
 
 	public String generateEpaper(boolean delete, MongoTemplate mongoTemplate) {
 		String returnUrl = "";
 
-//		Date yesterday = Time.addandReturnDate(-1);
-//		Date d = new Date(yesterday.getYear(), yesterday.getMonth(),
-//				yesterday.getDate(), 0, 0, 0);
+
 		try {
 			epaper.setId();
 

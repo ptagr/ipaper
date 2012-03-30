@@ -79,6 +79,9 @@ public class ScheduledTask  extends TimerTask{
 						paper.setLang(Language.valueOf(language.toUpperCase()));
 						System.out.println("Scheduled Task : "+"Generating epaper for paramenters : ("+paper.getName()+", "+city+", "+language+", "+format.format(d)+")");
 						new EpaperTask(paper).generateEpaper(false, mongoTemplate);
+						long mem = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())/(1024*1024);
+				    	System.out.println("JVM memory in use = {" + mem +"}");
+						
 					}
 				}
 			}
