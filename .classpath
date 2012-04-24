@@ -10,5 +10,10 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/home/punitag/Desktop/htmlparser.jar"/>
+	<classpathentry kind="lib" path="/home/punitag/Desktop/filterbuilder.jar"/>
+	<classpathentry kind="lib" path="/home/punitag/Desktop/htmllexer.jar"/>
+	<classpathentry kind="lib" path="/home/punitag/Desktop/sitecapturer.jar"/>
+	<classpathentry kind="lib" path="/home/punitag/Desktop/thumbelina.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

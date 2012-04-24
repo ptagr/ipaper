@@ -19,94 +19,60 @@ import org.junit.Test;
 
 import com.Ostermiller.util.CircularByteBuffer;
 import com.ipaper.myapp.DownloadManager;
+import com.ipaper.myapp.EpaperBase;
+import com.ipaper.myapp.EpaperFactory;
 import com.ipaper.myapp.HINDUSTAN_TIMES;
 import com.ipaper.myapp.HTHttpDownloader;
+import com.ipaper.myapp.Language;
 import com.ipaper.myapp.MyPDFUtility;
 import com.ipaper.myapp.TOI;
-
-
+import com.ipaper.myapp.Time;
 
 public class HTTest {
 
 	private static HINDUSTAN_TIMES ht;
-	
+
 	@BeforeClass
-	public static void initialize(){
-		ht = new HINDUSTAN_TIMES("ENGLISH","MUMBAI", new Date());
+	public static void initialize() {
+		ht = new HINDUSTAN_TIMES("ENGLISH", "MUMBAI", new Date());
 	}
-//	@Test
-//	public void test() {
-//		List<String> urls = ht.buildPageUrls();
-//		for(String url:urls){
-//			System.out.println(url);
-//		}
-//	}
-	
+
+	// @Test
+	// public void test() {
+	// List<String> urls = ht.buildPageUrls();
+	// for(String url:urls){
+	// System.out.println(url);
+	// }
+	// }
+
 	@Test
-	public void testDownloader() throws MalformedURLException{
+	public void testDownloader() throws MalformedURLException {
 		List<CircularByteBuffer> cbList = new ArrayList<CircularByteBuffer>();
-		HTHttpDownloader htd = new HTHttpDownloader(new URL("http://epaper.hindustantimes.com/PUBLICATIONS/HT/HD/2011/11/14/PagePrint/14_11_2011_001.pdf"));
-		
-		
-		//htd.run();
+		HTHttpDownloader htd = new HTHttpDownloader(
+				new URL(
+						"http://epaper.hindustantimes.com/PUBLICATIONS/HT/HD/2011/11/14/PagePrint/14_11_2011_001.pdf"));
+
+		// htd.run();
 	}
 
-	
 	public static void main(String[] args) throws IOException {
-		
-		DownloadManager dm = DownloadManager.getInstance();
 
-		List<CircularByteBuffer> cbList = new ArrayList<CircularByteBuffer>();
-//		dm.createDownload(new URL("http://epaper.hindustantimes.com/PUBLICATIONS/HT/HM/2011/11/22/PagePrint/22_11_2011_013.pdf"),cbList, "ht");
-//		dm.createDownload(new URL("http://epaper.hindustantimes.com/PUBLICATIONS/HT/HM/2011/11/22/PagePrint/22_11_2011_012.pdf"),cbList, "ht");
-		//dm.createDownload(new URL("http://epaper.hindustantimes.com/PUBLICATIONS/HT/HM/2011/11/22/PagePrint/22_11_2011_011.pdf"),cbList, "ht");
-		
-		
-		
-		
-//		dm.startAllDownloads();
-//		
-//		dm.waitForDownloads();
-		
-		//HTHttpDownloader htd = new HTHttpDownloader(new URL("http://epaper.hindustantimes.com/PUBLICATIONS/HT/HM/2011/11/22/PagePrint/22_11_2011_013.pdf"),cbList);
-		
-		//HTHttpDownloader htd2 = new HTHttpDownloader(new URL("http://epaper.hindustantimes.com/PUBLICATIONS/HT/HM/2011/11/22/PagePrint/22_11_2011_012.pdf"),cbList);
-		
-		System.out.println("ALL DOWNLOADS OVER");
-		
-		
-		
-		System.out.println(cbList.size());
-		for(CircularByteBuffer cbb : cbList){
-			System.out.println(cbb.getAvailable());
-		}
-		
-		ByteArrayOutputStream _boutStream = new ByteArrayOutputStream();
+		EpaperBase paper = new EpaperFactory().epaper("HINDUSTAN_TIMES");
+		Date date = Time.addandReturnDate(-1);
+		System.out.println(date);
+		paper.setCity("MUMBAI");
+		paper.setDate(date);
+		paper.setLang(Language.valueOf("ENGLISH"));
+		paper.setId();
+		paper.buildPageUrls();
+		byte[] paperpdf = DownloadManager.getInstance().download(paper);
 
-		//MyPDFUtility.concatPDFs(cbList, 2);
-		
-		System.out.println("PAPERS MERGED");
-		
-		
-		//InputStream s = cbList.get(0).getInputStream();
-	    String strFilePath = "/home/punitag/demo.pdf";
+		String strFilePath = "/home/punitag/demo.pdf";
 
 		FileOutputStream fos = new FileOutputStream(strFilePath);
-		fos.write(_boutStream.toByteArray());
-		
-		
-//		int numRead;
-//		int totalnumRead = 0;
-//		byte data[] = new byte[4096];
-//		while ((numRead = s.read(data, 0, 4096))!=-1) {
-//			// write to buffer
-//			//numRead = s.read(data, 0, 4096);
-//			totalnumRead+=numRead;
-//			fos.write(data, 0, numRead);
-//		}
-//		System.out.println("totalnumRead : "+totalnumRead);
-		
-		
+		fos.write(paperpdf);
+		fos.flush();
+
 		fos.close();
 	}
 }
