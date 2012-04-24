@@ -1,2 +1,0 @@
-export MONGOHQ_URL=mongodb://admin:randompassword@staff.mongohq.com:10082/indianepaper
-/usr/lib/jvm/java-6-sun-1.6.0.30
